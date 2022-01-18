@@ -79,16 +79,15 @@ $ python tasks.py runserver # Starts the tasks management server"""
     def add(self, args):
         priority = int(args[0])
         text = " ".join(args[1:])
-        if priority in self.current_items:
-            priority2 = priority
-            # If a new task is added with an existing priority, the priority of the existing task will be increased by 1
-            for priority2 in sorted(self.current_items.keys()):
-                if priority2 == priority:
-                    for i in sorted(self.current_items.keys()):
-                        if i == priority:
-                            self.current_items[i + 1] = self.current_items[i]
-            self.current_items[priority2] = text
-            del self.current_items[priority]
+        priority2 = priority
+        items = []
+        if priority2 in sorted(self.current_items):
+            while priority2 in sorted(self.current_items):
+                items.append(priority2)
+                priority2 += 1
+        items.reverse()
+        for item in items:
+            self.current_items[item + 1] = self.current_items[item]
         self.current_items[priority] = text
         print(f'Added task: "{text}" with priority {priority}')
         self.write_current()
