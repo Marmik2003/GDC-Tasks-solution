@@ -79,6 +79,7 @@ $ python tasks.py runserver # Starts the tasks management server"""
     def add(self, args):
         priority = int(args[0])
         text = " ".join(args[1:])
+
         priority2 = priority
         items = []
         if priority2 in sorted(self.current_items):
@@ -88,6 +89,7 @@ $ python tasks.py runserver # Starts the tasks management server"""
         items.reverse()
         for item in items:
             self.current_items[item + 1] = self.current_items[item]
+
         self.current_items[priority] = text
         print(f'Added task: "{text}" with priority {priority}')
         self.write_current()
@@ -134,7 +136,6 @@ $ python tasks.py runserver # Starts the tasks management server"""
         else:
             string = "<h1> Pending Tasks: </h1>\n<ul>\n"
             for task in tasks:
-                print(task.split('[')[1][:-1])
                 string += f"<li>{task} - <a role='button' href='/done/{task.split('[')[1][:-1]}'>Done</a> &nbsp; <a role='button' href='/delete/{task.split('[')[1][:-1]}'>Delete</a> </li>\n"
             string += "</ul>"
         return string
